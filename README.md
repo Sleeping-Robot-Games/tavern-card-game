@@ -1,1 +1,1 @@
-# tavern-rush
+# tavern-card-game
