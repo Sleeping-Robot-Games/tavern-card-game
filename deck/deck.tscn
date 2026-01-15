@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://l50fjoa760a4"]
+
+[ext_resource type="Script" uid="uid://ddslmyexsvny0" path="res://deck/deck.gd" id="1_pihgb"]
+[ext_resource type="Texture2D" uid="uid://cj2hasiq53anv" path="res://assets/card-outline.png" id="2_rqxj1"]
+[ext_resource type="FontFile" uid="uid://rygdvm1xf5jq" path="res://m6x11.ttf" id="3_pihgb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqbxk"]
+size = Vector2(22, 30)
+
+[sub_resource type="Theme" id="Theme_8n6od"]
+default_font = ExtResource("3_pihgb")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 4
+
+[node name="Deck" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_pihgb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Outline" type="Sprite2D" parent="."]
+texture = ExtResource("2_rqxj1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_rqbxk")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -25.5
+offset_right = 67.0
+offset_bottom = -10.0
+scale = Vector2(0.5, 0.5)
+theme = SubResource("Theme_8n6od")
+text = "Ingredients"
+horizontal_alignment = 1
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
