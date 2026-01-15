@@ -23,6 +23,13 @@ func _ready():
 	if not Engine.is_editor_hint():
 		_initialize_deck()
 
+# Patron data: { name: { wants: String, pays: int, patience: float } }
+const PATRON_DATA = {
+	"EasyCustomer": { "wants": "Bread", "pays": 2, "patience": 10.0 },
+	"MediumCustomer": { "wants": "Ale", "pays": 3, "patience": 8.0 },
+	"HardCustomer": { "wants": "Meal", "pays": 5, "patience": 6.0 }
+}
+
 func _initialize_deck():
 	if type == "ingredient":
 		cards.clear()
@@ -34,7 +41,20 @@ func _initialize_deck():
 			cards.append("Hops")
 		for i in range(2):
 			cards.append("Honey")
-			
+
+		randomize()
+		cards.shuffle()
+	elif type == "patron":
+		cards.clear()
+		# 3x Easy Customer
+		for i in range(3):
+			cards.append("EasyCustomer")
+		# 3x Medium Customer
+		for i in range(3):
+			cards.append("MediumCustomer")
+		# 1x Hard Customer
+		cards.append("HardCustomer")
+
 		randomize()
 		cards.shuffle()
 
@@ -53,12 +73,21 @@ func update_label():
 			$Label.text = "Upgrade\bDeck"
 
 func draw_card() -> Node2D:
-	if game.is_hand_full() or cards.is_empty():
+	if cards.is_empty():
+		return null
+	# Only check hand for ingredient cards
+	if type == "ingredient" and game.is_hand_full():
 		return null
 	var card_value = cards.pop_back()
 	var card_instance = card_scene.instantiate()
 	card_instance.type = type
 	card_instance.card = card_value
+	# Set patron-specific data
+	if type == "patron" and card_value in PATRON_DATA:
+		var data = PATRON_DATA[card_value]
+		card_instance.patron_wants = data["wants"]
+		card_instance.patron_pays = data["pays"]
+		card_instance.patron_patience = data["patience"]
 	return card_instance
 
 func _on_area_2d_mouse_entered() -> void:

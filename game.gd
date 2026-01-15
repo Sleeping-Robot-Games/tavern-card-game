@@ -3,13 +3,16 @@ extends Node2D
 var hand: Array[Node2D] = []
 var dragging_card: Node2D = null
 var valid_drop_zones: Array[Node2D] = []
+var patron_zones: Array[Node2D] = []
 
 @export var card_spacing: float = 50.0
 @export var hand_offset: Vector2 = Vector2(100, 0)
 
 func _ready():
 	$IngredientDeck.card_drawn.connect(_on_deck_card_drawn)
+	$PatronDeck.card_drawn.connect(_on_patron_deck_card_drawn)
 	_collect_drop_zones()
+	_collect_patron_zones()
 
 func _collect_drop_zones() -> void:
 	# Gather hand zones
@@ -26,6 +29,12 @@ func _collect_drop_zones() -> void:
 	var well_zone = $Well.get_node_or_null("CardZone")
 	if well_zone:
 		valid_drop_zones.append(well_zone)
+
+func _collect_patron_zones() -> void:
+	for child in $PatronZone.get_children():
+		if child is Sprite2D and child.has_method("place_card"):
+			child.type = "patron"
+			patron_zones.append(child)
 
 func _on_deck_card_drawn(card_instance: Node2D) -> void:
 	add_child(card_instance)
@@ -44,6 +53,60 @@ func _on_deck_card_drawn(card_instance: Node2D) -> void:
 	# Connect drag signals
 	card_instance.drag_started.connect(_on_card_drag_started)
 	card_instance.drag_ended.connect(_on_card_drag_ended)
+
+func _on_patron_deck_card_drawn(card_instance: Node2D) -> void:
+	var target_zone = _find_empty_patron_zone()
+	if not target_zone:
+		# No available patron zone, card cannot be placed
+		card_instance.queue_free()
+		return
+
+	add_child(card_instance)
+	target_zone.place_card(card_instance)
+
+	# Connect timeout signal
+	card_instance.patron_timeout.connect(_on_patron_timeout)
+
+	# Start the patience timer
+	card_instance.start_patience_timer()
+
+func _find_empty_patron_zone() -> Node2D:
+	for zone in patron_zones:
+		if not zone.has_card():
+			return zone
+	return null
+
+func _on_patron_timeout(card: Node2D) -> void:
+	_handle_patron_timeout(card)
+
+func _handle_patron_timeout(card: Node2D) -> void:
+	# TODO: Implement patron timeout consequences (reputation loss, etc.)
+	print("GAME: Patron ", card.card, " left unhappy! They wanted: ", card.patron_wants)
+	
+func clean_meal_and_patron(patron_zone, patron_card, meal_card):
+	# Remove patron from zone
+	patron_zone.remove_card()
+	patron_card.queue_free()
+
+	# Remove meal card
+	if meal_card.current_zone:
+		meal_card.current_zone.remove_card()
+	meal_card.queue_free()
+
+func _serve_patron(meal_card: Node2D, patron_zone: Node2D) -> void:
+	var patron_card = patron_zone.get_card()
+
+	# Check if the meal matches what the patron wants
+	if meal_card.card == patron_card.patron_wants:
+		# TODO: Implement successful serve (add coins, reputation, etc.)
+		print("GAME: Served ", patron_card.card, " with ", meal_card.card, "! Earned ", patron_card.patron_pays, " coins.")
+		patron_card.stop_patience_timer()
+
+		clean_meal_and_patron(patron_zone, patron_card, meal_card)
+	else:
+		# Wrong meal
+		print("GAME: Patron wanted ", patron_card.patron_wants, " but was offered ", meal_card.card)
+		clean_meal_and_patron(patron_zone, patron_card, meal_card)
 
 func _find_empty_hand_zone() -> Node2D:
 	for child in $Hand.get_children():
@@ -65,7 +128,14 @@ func _on_card_drag_ended(card: Node2D) -> void:
 	var target_zone = _find_hovered_zone()
 
 	if target_zone and target_zone.accepts_card(card):
-		if target_zone.has_card():
+		# Special handling for meal cards dropped on patron zones
+		if card.type == "meal" and target_zone.type == "patron":
+			if target_zone.has_card():
+				_serve_patron(card, target_zone)
+			else:
+				# No patron in this zone, return meal to origin
+				_return_card_to_origin(card)
+		elif target_zone.has_card():
 			_swap_cards(card, target_zone)
 		else:
 			_place_card_in_zone(card, target_zone)
@@ -76,6 +146,10 @@ func _on_card_drag_ended(card: Node2D) -> void:
 
 func _find_hovered_zone() -> Node2D:
 	for zone in valid_drop_zones:
+		if zone.is_hovered_by_card and zone.hovering_card == dragging_card:
+			return zone
+	# Also check patron zones for meal cards
+	for zone in patron_zones:
 		if zone.is_hovered_by_card and zone.hovering_card == dragging_card:
 			return zone
 	return null

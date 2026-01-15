@@ -3,6 +3,7 @@ extends Node2D
 
 signal drag_started(card: Node2D)
 signal drag_ended(card: Node2D)
+signal patron_timeout(card: Node2D)
 
 @export_enum("ingredient", "patron", "upgrade", "well", "meal") var type = ""
 @export var card: String = "":
@@ -10,6 +11,13 @@ signal drag_ended(card: Node2D)
 		card = value
 		if Engine.is_editor_hint():
 			load_sprite()
+
+# Patron-specific properties
+var patron_wants: String = ""
+var patron_pays: int = 0
+var patron_patience: float = 0.0
+var patience_remaining: float = 0.0
+var patience_timer_active: bool = false
 
 var is_dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
@@ -26,9 +34,17 @@ func load_sprite():
 	var sprite_path = "res://assets/" + card.capitalize() + ".png"
 	if ResourceLoader.exists(sprite_path):
 		$Sprite2D.texture = load(sprite_path)
+	if type == 'patron':
+		$ProgressBar.show()
+		$PayLabel.show()
+		$WantLabel.show()
+		_setup_patron_display()
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if Engine.is_editor_hint():
+		return
+	# Patron cards are not draggable
+	if type == "patron":
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -62,3 +78,33 @@ func snap_to_zone(zone: Node2D) -> void:
 
 func return_to_original() -> void:
 	global_position = original_position
+
+func _setup_patron_display() -> void:
+	if not is_node_ready():
+		await ready
+	$PayLabel.text = str(patron_pays) + " coins"
+	$WantLabel.text = patron_wants
+	$ProgressBar.max_value = patron_patience
+	$ProgressBar.value = patron_patience
+	patience_remaining = patron_patience
+
+func start_patience_timer() -> void:
+	patience_remaining = patron_patience
+	patience_timer_active = true
+
+func stop_patience_timer() -> void:
+	patience_timer_active = false
+
+func _process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+	if patience_timer_active and type == "patron":
+		patience_remaining -= delta
+		$ProgressBar.value = patience_remaining
+		if patience_remaining <= 0:
+			patience_timer_active = false
+			_on_patron_timeout()
+
+func _on_patron_timeout() -> void:
+	print("Patron timed out! Customer wanted: ", patron_wants, " but wasn't served in time.")
+	patron_timeout.emit(self)

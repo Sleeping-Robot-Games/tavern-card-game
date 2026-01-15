@@ -4,7 +4,7 @@ extends Sprite2D
 signal card_placed(zone: Node2D, card: Node2D)
 signal card_removed(zone: Node2D, card: Node2D)
 
-@export_enum("blank", "well", "hand", "crafting", "bartop") var type = "blank":
+@export_enum("blank", "well", "hand", "crafting", "bartop", "patron") var type = "blank":
 	set(value):
 		type = value
 		if Engine.is_editor_hint():
@@ -38,6 +38,10 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 func accepts_card(card: Node2D) -> bool:
 	if card.type == "ingredient":
 		return type in ["hand", "crafting", "well"]
+	elif card.type == "patron":
+		return type == "patron"
+	elif card.type == "meal":
+		return type in ["patron", "crafting"]
 	return false
 
 func place_card(card: Node2D) -> void:

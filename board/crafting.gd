@@ -124,6 +124,10 @@ func _complete_craft() -> void:
 	result_card.card = current_recipe
 	game.add_child(result_card)
 
+	# Connect drag signals for meal card
+	result_card.drag_started.connect(game._on_card_drag_started)
+	result_card.drag_ended.connect(game._on_card_drag_ended)
+
 	bar_top.get_zone().place_card(result_card)
 
 	crafting_completed.emit(current_recipe)
