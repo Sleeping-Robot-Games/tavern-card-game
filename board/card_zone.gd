@@ -4,7 +4,7 @@ extends Sprite2D
 signal card_placed(zone: Node2D, card: Node2D)
 signal card_removed(zone: Node2D, card: Node2D)
 
-@export_enum("blank", "well", "hand", "crafting") var type = "blank":
+@export_enum("blank", "well", "hand", "crafting", "bartop") var type = "blank":
 	set(value):
 		type = value
 		if Engine.is_editor_hint():

@@ -1,13 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxgrgiiekx55c"]
+[gd_scene load_steps=4 format=3 uid="uid://cxgrgiiekx55c"]
 
-[ext_resource type="Texture2D" uid="uid://cj2hasiq53anv" path="res://assets/card-outline.png" id="1_3krip"]
+[ext_resource type="PackedScene" uid="uid://8ni2fs6usqj1" path="res://board/card_zone.tscn" id="1_cardzone"]
 [ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="2_7blsp"]
+[ext_resource type="Script" path="res://board/bar_top.gd" id="3_script"]
 
 [node name="BarTop" type="Node2D"]
 scale = Vector2(2, 2)
+script = ExtResource("3_script")
 
-[node name="Zone" type="Sprite2D" parent="."]
-texture = ExtResource("1_3krip")
+[node name="CardZone" parent="." instance=ExtResource("1_cardzone")]
+type = "bartop"
 
 [node name="Label" type="Label" parent="."]
 offset_left = -12.0

@@ -104,13 +104,13 @@ text = "Round Time:"
 position = Vector2(560, 314)
 
 [node name="CraftZone" parent="." instance=ExtResource("5_7jktm")]
-position = Vector2(301, 209)
+position = Vector2(301, 199)
 
 [node name="BarTop" parent="." instance=ExtResource("6_ryrav")]
-position = Vector2(300, 117)
+position = Vector2(300, 106)
 
 [node name="PatronZone" parent="." instance=ExtResource("7_eow3j")]
-position = Vector2(139, 107)
+position = Vector2(139, 94)
 
 [node name="Upgrades" type="Node2D" parent="."]
 position = Vector2(529, 120)
