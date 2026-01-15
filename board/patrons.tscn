@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://davisro5lkqvl"]
+
+[ext_resource type="Script" uid="uid://clycqfdagsyhq" path="res://board/patrons.gd" id="1_rqf5c"]
+[ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="2_1ta4j"]
+[ext_resource type="PackedScene" uid="uid://8ni2fs6usqj1" path="res://board/card_zone.tscn" id="2_m56dr"]
+
+[node name="Patrons" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_rqf5c")
+
+[node name="Label8" type="Label" parent="."]
+offset_left = -12.5
+offset_top = -20.0
+offset_right = 37.5
+offset_bottom = -6.0
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("2_1ta4j")
+text = "Patrons"
+horizontal_alignment = 1
+
+[node name="CardZone" parent="." instance=ExtResource("2_m56dr")]
+position = Vector2(-12, 3.5)
+
+[node name="CardZone2" parent="." instance=ExtResource("2_m56dr")]
+position = Vector2(12, 3.5)

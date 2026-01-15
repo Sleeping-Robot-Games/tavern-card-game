@@ -19,6 +19,7 @@ var card_scene = preload("res://card/card.tscn")
 func _ready():
 	if type:
 		load_sprite()
+		update_label()
 	if not Engine.is_editor_hint():
 		_initialize_deck()
 
@@ -45,11 +46,11 @@ func load_sprite():
 func update_label():
 	match type:
 		'ingredient':
-			$Label.text = "Ingredients"
+			$Label.text = "Ingredient\nDeck"
 		'patron':
-			$Label.text = "Patrons"
+			$Label.text = "Patron\nDeck"
 		'upgrade':
-			$Label.text = "Upgrades"
+			$Label.text = "Upgrade\bDeck"
 
 func draw_card() -> Node2D:
 	if game.is_hand_full() or cards.is_empty():

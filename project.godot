@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Tavern Rush"
+config/name="Tavern Card Game"
 run/main_scene="uid://7eltheyw0bjg"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://q72tnoeblvgc"
 
 [display]
 
@@ -25,6 +25,7 @@ window/stretch/scale_mode="integer"
 [file_customization]
 
 folder_colors={
+"res://board/": "blue",
 "res://card/": "teal",
 "res://deck/": "orange"
 }

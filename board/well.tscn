@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://wvxclvxv7r17"]
+
+[ext_resource type="Texture2D" uid="uid://c65ejipydlq1t" path="res://assets/Well.png" id="1_7ftsu"]
+[ext_resource type="Script" uid="uid://baj1rv0al3ykj" path="res://board/well.gd" id="1_po7mb"]
+[ext_resource type="Texture2D" uid="uid://cj2hasiq53anv" path="res://assets/card-outline.png" id="2_hmora"]
+[ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="3_hmora"]
+[ext_resource type="PackedScene" uid="uid://8ni2fs6usqj1" path="res://board/card_zone.tscn" id="3_yiorn"]
+
+[node name="Well" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_po7mb")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -5.5
+offset_top = -24.0
+offset_right = 16.5
+offset_bottom = -10.0
+scale = Vector2(0.5, 0.5)
+tooltip_text = "Drag Ingredient to the Well to make it a Water"
+mouse_filter = 1
+theme = ExtResource("3_hmora")
+text = "Well"
+
+[node name="CardZone" parent="." instance=ExtResource("3_yiorn")]
+texture = ExtResource("1_7ftsu")
+type = "well"
+
+[node name="Sprite2D" type="Sprite2D" parent="CardZone"]
+texture = ExtResource("2_hmora")

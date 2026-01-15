@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxgrgiiekx55c"]
+
+[ext_resource type="Texture2D" uid="uid://cj2hasiq53anv" path="res://assets/card-outline.png" id="1_3krip"]
+[ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="2_7blsp"]
+
+[node name="BarTop" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="Zone" type="Sprite2D" parent="."]
+texture = ExtResource("1_3krip")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -12.0
+offset_top = -26.0
+offset_right = 35.0
+offset_bottom = -3.0
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("2_7blsp")
+text = "Bar Top"

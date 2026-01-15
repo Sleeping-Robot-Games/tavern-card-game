@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4rm5xy0w1vpv"]
+
+[ext_resource type="Script" uid="uid://dy8cxednxnw47" path="res://board/crafting.gd" id="1_86xv3"]
+[ext_resource type="PackedScene" uid="uid://8ni2fs6usqj1" path="res://board/card_zone.tscn" id="2_86xv3"]
+[ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="2_f5il0"]
+
+[node name="Crafting" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_86xv3")
+
+[node name="CardZone" parent="." instance=ExtResource("2_86xv3")]
+position = Vector2(-24, 0)
+
+[node name="CardZone2" parent="." instance=ExtResource("2_86xv3")]
+position = Vector2(-0.5, 0)
+
+[node name="CardZone3" parent="." instance=ExtResource("2_86xv3")]
+position = Vector2(23, 0)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -17.0
+offset_top = -25.5
+offset_right = 51.0
+offset_bottom = -11.5
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("2_f5il0")
+text = "Crafting"
+horizontal_alignment = 1

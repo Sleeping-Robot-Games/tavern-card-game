@@ -1,10 +1,151 @@
-[gd_scene load_steps=3 format=3 uid="uid://7eltheyw0bjg"]
+[gd_scene load_steps=10 format=3 uid="uid://7eltheyw0bjg"]
 
 [ext_resource type="Script" uid="uid://nvldf7an5kwo" path="res://game.gd" id="1_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://l50fjoa760a4" path="res://deck/deck.tscn" id="2_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://qrc4we8yh1rj" path="res://board/hand.tscn" id="2_vef74"]
+[ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="3_feb5d"]
+[ext_resource type="PackedScene" uid="uid://wvxclvxv7r17" path="res://board/well.tscn" id="4_fc0e3"]
+[ext_resource type="PackedScene" uid="uid://c4rm5xy0w1vpv" path="res://board/crafting.tscn" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://cxgrgiiekx55c" path="res://bar_top.tscn" id="6_ryrav"]
+[ext_resource type="PackedScene" uid="uid://davisro5lkqvl" path="res://board/patrons.tscn" id="7_eow3j"]
+[ext_resource type="PackedScene" uid="uid://brym6h0ay5bgj" path="res://card/card.tscn" id="8_j5wjh"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e2o6t")
 
-[node name="Deck" parent="." instance=ExtResource("2_e2o6t")]
+[node name="Hand" parent="." instance=ExtResource("2_vef74")]
+position = Vector2(301, 313)
+
+[node name="IngredientDeck" parent="." instance=ExtResource("2_e2o6t")]
 position = Vector2(86, 317)
+
+[node name="PatronDeck" parent="." instance=ExtResource("2_e2o6t")]
+position = Vector2(33, 114)
+type = "patron"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 516.0
+offset_top = 5.0
+offset_right = 561.0
+offset_bottom = 19.0
+theme = ExtResource("3_feb5d")
+text = "Recipes"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 472.0
+offset_top = 31.0
+offset_right = 636.0
+offset_bottom = 99.0
+alignment = 2
+
+[node name="Label9" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_feb5d")
+text = "Water + Grain = Bread"
+
+[node name="Label11" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_feb5d")
+text = "Water + Honey = Mead"
+
+[node name="Label10" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_feb5d")
+text = "Water + Grain + Hops = Ale"
+
+[node name="Label12" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_feb5d")
+text = "Bread + Ale = Meal"
+
+[node name="CoinLabel" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 4.0
+offset_right = 109.0
+offset_bottom = 18.0
+theme = ExtResource("3_feb5d")
+text = "Coin:"
+
+[node name="Amount" type="Label" parent="CoinLabel"]
+layout_mode = 0
+offset_left = 31.0
+offset_right = 65.0
+offset_bottom = 14.0
+theme = ExtResource("3_feb5d")
+text = "0"
+
+[node name="RepLabel" type="Label" parent="."]
+offset_left = 167.0
+offset_top = 5.0
+offset_right = 229.0
+offset_bottom = 19.0
+theme = ExtResource("3_feb5d")
+text = "Repuation:"
+
+[node name="Amount" type="Label" parent="RepLabel"]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 1.0
+offset_right = 74.0
+offset_bottom = 15.0
+theme = ExtResource("3_feb5d")
+text = "0"
+
+[node name="RoundLabel" type="Label" parent="."]
+visible = false
+offset_left = 258.0
+offset_top = 5.0
+offset_right = 327.0
+offset_bottom = 19.0
+theme = ExtResource("3_feb5d")
+text = "Round Time:"
+
+[node name="Well" parent="." instance=ExtResource("4_fc0e3")]
+position = Vector2(560, 314)
+
+[node name="CraftZone" parent="." instance=ExtResource("5_7jktm")]
+position = Vector2(301, 209)
+
+[node name="BarTop" parent="." instance=ExtResource("6_ryrav")]
+position = Vector2(300, 117)
+
+[node name="PatronZone" parent="." instance=ExtResource("7_eow3j")]
+position = Vector2(139, 107)
+
+[node name="Upgrades" type="Node2D" parent="."]
+position = Vector2(529, 120)
+
+[node name="Label" type="Label" parent="Upgrades"]
+offset_left = -51.0
+offset_top = 1.0
+offset_right = 61.0
+offset_bottom = 15.0
+theme = ExtResource("3_feb5d")
+text = "Upgrades"
+horizontal_alignment = 1
+
+[node name="Card" parent="Upgrades" instance=ExtResource("8_j5wjh")]
+position = Vector2(-25, 52)
+card = "barrel"
+
+[node name="CardLabel" type="Label" parent="Upgrades"]
+offset_left = -37.0
+offset_top = 87.0
+offset_right = -14.0
+offset_bottom = 101.0
+theme = ExtResource("3_feb5d")
+text = "(0)"
+horizontal_alignment = 1
+
+[node name="Card2" parent="Upgrades" instance=ExtResource("8_j5wjh")]
+position = Vector2(30, 53)
+card = "cook"
+
+[node name="Card2Label" type="Label" parent="Upgrades"]
+offset_left = 19.0
+offset_top = 88.0
+offset_right = 42.0
+offset_bottom = 102.0
+theme = ExtResource("3_feb5d")
+text = "(0)"
+horizontal_alignment = 1

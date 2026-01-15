@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://8ni2fs6usqj1"]
+
+[ext_resource type="Texture2D" uid="uid://cj2hasiq53anv" path="res://assets/card-outline.png" id="1_0xwfb"]
+[ext_resource type="Script" uid="uid://cihctgrywli2e" path="res://board/card_zone.gd" id="2_mlr7v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s0vgg"]
+size = Vector2(22, 30)
+
+[node name="CardZone" type="Sprite2D"]
+texture = ExtResource("1_0xwfb")
+script = ExtResource("2_mlr7v")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_s0vgg")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

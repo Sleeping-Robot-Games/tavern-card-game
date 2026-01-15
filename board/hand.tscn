@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://qrc4we8yh1rj"]
+
+[ext_resource type="Theme" uid="uid://b3533pewo25eg" path="res://deck/label.tres" id="1_yy7l0"]
+[ext_resource type="PackedScene" uid="uid://8ni2fs6usqj1" path="res://board/card_zone.tscn" id="2_fd34s"]
+
+[node name="Hand" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -7.5
+offset_top = -27.5
+offset_right = 20.5
+offset_bottom = -13.5
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("1_yy7l0")
+text = "Hand"
+
+[node name="CardZone" parent="." instance=ExtResource("2_fd34s")]
+position = Vector2(-59, -0.5)
+
+[node name="CardZone2" parent="." instance=ExtResource("2_fd34s")]
+position = Vector2(-35.5, -0.5)
+
+[node name="CardZone3" parent="." instance=ExtResource("2_fd34s")]
+position = Vector2(-12, -0.5)
+
+[node name="CardZone4" parent="." instance=ExtResource("2_fd34s")]
+position = Vector2(12, -0.5)
+
+[node name="CardZone5" parent="." instance=ExtResource("2_fd34s")]
+position = Vector2(35.5, -0.5)
+
+[node name="CardZone6" parent="." instance=ExtResource("2_fd34s")]
+position = Vector2(59, -0.5)
